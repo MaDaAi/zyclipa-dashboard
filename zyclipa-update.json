@@ -1,8 +1,8 @@
 {
   "version": "0.1.0",
-  "url": "https://github.com/MaDaAi/zyclipa-dashboard/releases/download/v0.1.0/Zyclipa-0.1.0-windows-x64.zip",
-  "sha256": "3963a08b3523cf0f7db8cad4751d8c5030042e5c1530fb2638340236f7c39679",
-  "size": 86028288,
+  "url": "https://github.com/MaDaAi/Zyclipa/releases/download/v0.1.0/Zyclipa-0.1.0-windows-x64.zip",
+  "sha256": "a724316c6f6374e17711186c2bb34772727f3dd91cedbdd23ca50468458cb5b3",
+  "size": 86028253,
   "notes": "First release of Zyclipa.",
-  "signature": "wUx6hNqlcV8tDYCsK0G7jIRFZzDFSfeuomAzQqbliATbPJi66JG0eJPwX/lrB2GBCph3RfvseRYqEY+Ha4meAA=="
+  "signature": "Gmg5YKWVOpofO+xbTKyjChroL0XhtwxlwfrGm6y3WXJn/g6/HQC5p1NX0+xMwu47wYwufoq/Par5r5DwVvkBCg=="
 }
