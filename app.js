@@ -1,8 +1,8 @@
 "use strict";
 /*
- * Zyclipra website (static, GitHub Pages).
- * - Google sign-in (Google Identity Services, token kept in memory only) → the clips the Zyclipra app uploaded
- *   to Google Drive (drive.file scope: only files Zyclipra made).
+ * Zyclipa website (static, GitHub Pages).
+ * - Google sign-in (Google Identity Services, token kept in memory only) → the clips the Zyclipa app uploaded
+ *   to Google Drive (drive.file scope: only files Zyclipa made).
  * - PC controls: the app leaves a private "PC link" file in the same Drive folder with this PC's home-network
  *   addresses and a link key. On the same network this page trades the key for a session directly with the
  *   PC (no relay, nothing exposed to the internet). If the browser blocks that, it explains why and links to
@@ -10,10 +10,21 @@
  */
 // GitHub Pages can't send X-Frame-Options: refuse to run inside another site's frame (clickjacking).
 if (window.top !== window.self) { document.documentElement.style.display = "none"; throw new Error("framed"); }
-const CFG = window.ZYCLIPRA || {};
+const CFG = window.ZYCLIPA || {};
+// ---------------------------------------------------------------- appearance (light / dark)
+function applyTheme(t) { if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+let savedTheme = "";
+try { savedTheme = localStorage.getItem("zy-theme") || ""; } catch (e) { /* storage blocked */ }
+applyTheme(savedTheme);
+$ready(() => {
+  const pick = document.getElementById("theme-pick");
+  pick.value = savedTheme;
+  pick.onchange = () => { try { localStorage.setItem("zy-theme", pick.value); } catch (e) { /* storage blocked */ } applyTheme(pick.value); };
+});
+function $ready(f) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", f); else f(); }
 const SCOPE = "https://www.googleapis.com/auth/drive.file openid email profile";
 const DRIVE = "https://www.googleapis.com/drive/v3/files";
-const LINK_NAME = "Zyclipra PC link (keep private).json";
+const LINK_NAME = "Zyclipa PC link (keep private).json";
 
 const $ = (id) => document.getElementById(id);
 function el(tag, cls, txt) {
@@ -53,7 +64,7 @@ $("signin").onclick = () => { $("login-error").textContent = ""; tokenClient && 
 async function onToken(r) {
   if (r.error) { $("login-error").textContent = "Google sign-in was cancelled."; return; }
   if (!google.accounts.oauth2.hasGrantedAllScopes(r, "https://www.googleapis.com/auth/drive.file")) {
-    $("login-error").textContent = "Zyclipra needs access to the files it made in your Google Drive. Sign in again and tick that box.";
+    $("login-error").textContent = "Zyclipa needs access to the files it made in your Google Drive. Sign in again and tick that box.";
     return;
   }
   gToken = r.access_token;
@@ -136,7 +147,7 @@ $("kind").onchange = () => renderClips();
 
 function clipCard(f) {
   const b = el("button", "clip-card");
-  const th = el("div", "thumb", f.mimeType.startsWith("image/") ? "🖼" : "🎬");
+  const th = el("div", "thumb no-thumb");
   if (f.thumbnailLink) {
     const img = el("img");
     img.alt = "";
@@ -164,7 +175,7 @@ function renderClips() {
   const s = $("search").value.trim().toLowerCase(), k = $("kind").value;
   const list = clips.filter((f) => (!s || f.name.toLowerCase().includes(s)) && (!k || f.mimeType.startsWith(k + "/")));
   $("clip-grid").replaceChildren(...list.map(clipCard));
-  $("clip-stats").textContent = clips.length ? list.length + " of " + clips.length + (nextPage ? "+" : "") + " on Google Drive" : "No clips on Google Drive yet – turn on automatic upload in the Zyclipra app.";
+  $("clip-stats").textContent = clips.length ? list.length + " of " + clips.length + (nextPage ? "+" : "") + " on Google Drive" : "No clips on Google Drive yet – turn on automatic upload in the Zyclipa app.";
   $("more").hidden = !nextPage;
   if (!pc) $("recent").replaceChildren(...clips.slice(0, 6).map(clipCard));
 }
@@ -189,7 +200,7 @@ $("source").onchange = () => renderClips();
 function localCard(c) {
   const b = el("button", "clip-card");
   const shot = c.kind === "screenshot";
-  const th = el("div", "thumb", shot ? "🖼" : "🎬");
+  const th = el("div", "thumb no-thumb");
   const show = (url) => { const img = el("img"); img.alt = ""; img.src = url; th.textContent = ""; th.appendChild(img); };
   if (thumbCache.has(c.id)) show(thumbCache.get(c.id));
   else thumbQueue.push(() => pcCall("clip/thumb", { id: c.id }).then((t) => {
@@ -379,7 +390,8 @@ function privateUrl(u) {
 async function findPcs() {
   links = [];
   try {
-    const q = "name = '" + LINK_NAME.replace(/'/g, "\\'") + "' and trashed=false";
+    // The app was called Zyclipra before 0.1.0; its link file keeps that name until the PC runs the new version.
+    const q = "(name = '" + LINK_NAME + "' or name = 'Zyclipra PC link (keep private).json') and trashed=false";
     const j = await (await gfetch(DRIVE + "?pageSize=10&fields=files(id,modifiedTime)&q=" + encodeURIComponent(q))).json();
     for (const f of j.files || []) {
       try {
@@ -443,7 +455,7 @@ function setPcState(s) {
     online: "Connected on your home network.",
     connecting: "Looking for your PC on this network…",
     offline: "Not reachable from this device right now. Your clips on Google Drive still work.",
-    nolink: "No PC is set up for this website yet. In the Zyclipra app turn on Settings › Hosting › Zyclipra website.",
+    nolink: "No PC is set up for this website yet. In the Zyclipa app turn on Settings › Hosting › Zyclipa website.",
   }[s];
   if (l) {
     const lan = l.urls.find((u) => !u.includes("127.0.0.1")) || l.urls[0];
@@ -473,7 +485,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function rtcConnect(l) {
   const peer = new RTCPeerConnection();
-  const dc = peer.createDataChannel("zyclipra");
+  const dc = peer.createDataChannel("zyclipa");
   try {
     await peer.setLocalDescription(await peer.createOffer());
     await new Promise((r) => {
@@ -651,7 +663,7 @@ function renderSounds() {
   if (pads.dataset.sig !== list.map((x) => x.id + x.name + x.color + x.icon).join("|")) {
     pads.dataset.sig = list.map((x) => x.id + x.name + x.color + x.icon).join("|");
     pads.replaceChildren(...list.map(pad));
-    if (!list.length) pads.replaceChildren(el("p", "muted", "No sounds yet – add some in the Zyclipra app."));
+    if (!list.length) pads.replaceChildren(el("p", "muted", "No sounds yet – add some in the Zyclipa app."));
   }
   for (const x of list) {
     const b = pads.querySelector('[data-id="' + x.id + '"]');
@@ -665,9 +677,9 @@ function pad(x) {
   const b = el("button", "sound");
   b.dataset.id = x.id;
   if (x.color) b.style.setProperty("--pad", x.color);
-  b.append(el("span", "sound-icon", x.icon || "♪"), el("span", "sound-name", x.name),
+  b.append(el("span", "sound-icon", x.icon || ""), el("span", "sound-name", x.name),
     el("span", "sound-meta", (x.volume !== 1 ? Math.round(x.volume * 100) + "% · " : "") + (x.duration ? x.duration.toFixed(1) + " s" : "")),
-    el("span", "sound-progress"), el("span", "sound-stop", "■"));
+    el("span", "sound-progress"), el("span", "sound-stop"));
   b.onclick = async (ev) => {
     const stop = ev.target.classList.contains("sound-stop");
     b.classList.add("pressed");

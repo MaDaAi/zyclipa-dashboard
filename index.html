@@ -7,23 +7,23 @@
   <meta name="referrer" content="no-referrer">
   <!-- connect-src needs https: because your PC's home-network address (e.g. https://192.168.1.20:47820) isn't known in advance. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; manifest-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; style-src 'self' https://accounts.google.com/gsi/style; img-src 'self' data: blob: https://*.googleusercontent.com https://drive.google.com; media-src 'self' blob:; worker-src 'self'; connect-src 'self' https:; frame-src https://accounts.google.com; base-uri 'none'; form-action 'none'; object-src 'none'">
-  <title>Zyclipra</title>
+  <title>Zyclipa</title>
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="apple-mobile-web-app-title" content="Zyclipra">
+  <meta name="apple-mobile-web-app-title" content="Zyclipa">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="stylesheet" href="style.css?v=6">
-  <link rel="stylesheet" href="site.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="site.css?v=7">
   <script src="config.js?v=3"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="app.js?v=9" defer></script>
+  <script src="app.js?v=10" defer></script>
 </head>
 <body>
   <header class="top">
     <img src="logo.png" alt="" class="logo" width="30" height="30">
-    <span class="brand">Zyclipra</span>
+    <span class="brand">Zyclipa</span>
     <span id="conn" class="conn" hidden><span class="conn-dot"></span><span id="conn-text" role="status" aria-live="polite">PC offline</span></span>
     <span class="grow"></span>
   </header>
@@ -36,11 +36,11 @@
 
   <section id="login" class="card narrow">
     <h2>Your clips, anywhere</h2>
-    <p class="muted">Sign in with the Google account you connected in the Zyclipra app. You'll see the clips it uploaded to your Google Drive – and, when you're on the same Wi-Fi as your PC, you can clip and use the soundboard from here.</p>
+    <p class="muted">Sign in with the Google account you connected in the Zyclipa app. You'll see the clips it uploaded to your Google Drive – and, when you're on the same Wi-Fi as your PC, you can clip and use the soundboard from here.</p>
     <button id="signin" class="primary big" disabled>Sign in with Google</button>
     <p id="login-error" class="error-text" role="alert"></p>
     <p class="muted small">By signing in you agree to the <a href="terms.html">Terms of Use</a> and confirm you've read the <a href="privacy.html">Privacy Policy</a>.
-      Zyclipra only asks for access to the files the Zyclipra app made in your Google Drive, and doesn't keep your sign-in after you close the tab.</p>
+      Zyclipa only asks for access to the files the Zyclipa app made in your Google Drive, and doesn't keep your sign-in after you close the tab.</p>
   </section>
 
   <!-- Dashboard -->
@@ -53,7 +53,7 @@
       <div id="pc-help" hidden>
         <p class="small">Can't reach your PC from here. Check that:</p>
         <ul class="small muted help-list">
-          <li>Zyclipra is running and <b>Settings › Hosting › Zyclipra website</b> is on.</li>
+          <li>Zyclipa is running and <b>Settings › Hosting › Zyclipa website</b> is on.</li>
           <li>This phone is on the same Wi-Fi as the PC.</li>
           <li>If your browser asked to allow access to devices on your local network, choose <b>Allow</b>.</li>
         </ul>
@@ -65,12 +65,12 @@
     </section>
     <div id="controls" hidden>
       <button id="clip-it" class="clip-it" disabled>
-        <span class="clip-it-label">⚡ Clip it</span>
+        <span class="clip-it-label"><svg class="clip-it-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>Clip it</span>
         <span id="clip-it-sub" class="clip-it-sub">–</span>
       </button>
       <div class="action-row">
         <button id="rec-btn" class="action rec"><span id="rec-icon">●</span><span id="rec-text">Record</span><span id="rec-timer" class="timer"></span></button>
-        <button id="shot-btn" class="action">📷<span>Screenshot</span></button>
+        <button id="shot-btn" class="action"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></svg><span>Screenshot</span></button>
       </div>
       <section class="card">
         <div class="row between">
@@ -117,13 +117,13 @@
       <section class="card sb-head">
         <div class="row between">
           <h2>Soundboard</h2>
-          <button id="stop-all" class="danger">■ Stop all</button>
+          <button id="stop-all" class="danger">Stop all</button>
         </div>
         <div class="gain" id="master-gain"></div>
       </section>
       <div id="sb-pages" class="chips" role="tablist"></div>
       <div id="pads" class="pads"></div>
-      <p class="muted small">Sounds play on your PC, not on this phone. Rename, add sounds or change colours in the Zyclipra app.</p>
+      <p class="muted small">Sounds play on your PC, not on this phone. Rename, add sounds or change colours in the Zyclipa app.</p>
     </div>
   </main>
 
@@ -137,16 +137,26 @@
       <button id="signout" class="ghost">Sign out</button>
     </section>
     <section class="card">
+      <h2>Display</h2>
+      <label class="field">Appearance
+        <select id="theme-pick" aria-label="Appearance">
+          <option value="">Same as this device</option>
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </label>
+    </section>
+    <section class="card">
       <h2>Your PCs</h2>
       <div id="pcs"></div>
-      <p class="muted small">Zyclipra connects to your PC directly on your home network – never through the internet. To stop this website using your PC, turn off <b>Zyclipra website</b> in the app, or press <b>Reset website link</b> to sign it out everywhere.</p>
+      <p class="muted small">Zyclipa connects to your PC directly on your home network – never through the internet. To stop this website using your PC, turn off <b>Zyclipa website</b> in the app, or press <b>Reset website link</b> to sign it out everywhere.</p>
     </section>
   </main>
 
   <dialog id="player" aria-labelledby="player-title">
     <div class="player-head">
       <div><h2 id="player-title"></h2><p id="player-meta" class="muted small"></p></div>
-      <button id="player-close" class="ghost" aria-label="Close">✕</button>
+      <button id="player-close" class="ghost" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div id="player-media" class="player-media"></div>
     <div class="row wrap">
@@ -157,7 +167,7 @@
 
   <footer class="site-foot muted small">
     <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="eula.html">EULA</a> · <a href="cookies.html">Cookies</a> · <a href="refunds.html">Refunds</a>
-    <span>· Zyclipra is not affiliated with Google, GitHub or Microsoft.</span>
+    <span>· Zyclipa is not affiliated with Google, GitHub or Microsoft.</span>
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>

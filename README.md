@@ -1,9 +1,9 @@
-# Zyclipra website
+# Zyclipa website
 
-The online companion to [Zyclipra](https://madaai.github.io/zyclipra-dashboard/), a free Windows clipping and audio app.
+The online companion to [Zyclipa](https://madaai.github.io/zyclipa-dashboard/), a free Windows clipping and audio app.
 
-- **Clips:** sign in with Google to see, play and download the clips the Zyclipra app uploaded to your Google Drive.
-  The site only asks for `drive.file`, so it can only see files Zyclipra made.
+- **Clips:** sign in with Google to see, play and download the clips the Zyclipa app uploaded to your Google Drive.
+  The site only asks for `drive.file`, so it can only see files Zyclipa made.
 - **PC controls (same network only):** Clip it, recording, screenshots, instant replay and the soundboard.
   The app leaves a private link file in your Drive with your PC's home-network address and a random key;
   this page uses it to connect straight to your PC over WebRTC (the connection setup passes through that Drive
