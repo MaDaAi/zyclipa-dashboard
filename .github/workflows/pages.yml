@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Collect the site files
-        run: mkdir _site && cp index.html 404.html privacy.html terms.html cookies.html refunds.html eula.html third-party-notices.txt app.js sw.js config.js style.css site.css logo.png icon.png apple-touch-icon.png icon-192.png icon-512.png manifest.webmanifest _site/
+        run: mkdir _site && cp index.html 404.html zyclipa-update.json privacy.html terms.html cookies.html refunds.html eula.html third-party-notices.txt app.js sw.js config.js style.css site.css logo.png icon.png apple-touch-icon.png icon-192.png icon-512.png manifest.webmanifest _site/
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
